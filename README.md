@@ -36,7 +36,7 @@ The `callback` can be a normal function or a generator function, you can return 
 
 For async useage, we suggest use generator in slient callback just like co does:
 
-```
+```javascript
 slient(function * (log) {
   yield async1()
   assert(log.flush() === 'foo')
@@ -52,7 +52,7 @@ If callback is *sync*, the return value will be full captured logs `String`. If 
 
 The captured logs will NOT lose even if you have called `log.clear()` or `log.flush()`.
 
-### `log`
+### Parameter `log`
 
 The methods and props of callback parameter `log`:
 
@@ -76,7 +76,7 @@ Current captured logs.
 
 Keep some function slient:
 
-```
+```javascript
 const silent = require('keep-silent')
 
 // keep silent (sync case)
@@ -101,7 +101,7 @@ silent(function * () {
 
 Capture logs for unit test (with mocha):
 
-```
+```javascript
 const assert = require('assert')
 const silent = require('keep-silent')
 
