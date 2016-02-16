@@ -4,7 +4,22 @@
   "description": "keep console silent",
   "main": "index.js",
   "scripts": {
-    "test": "mocha test/*"
+    "test": "mocha test.js && standard",
+    "prepublish": "npm test",
+    "release": "git release $npm_package_version && npm publish",
+    "beta": "git release $npm_package_version && npm publish --tag beta"
+  },
+  "standard": {
+    "globals": [
+      "describe",
+      "beforeEach",
+      "afterEach",
+      "it"
+    ],
+    "ignore": [
+      "/node_modules",
+      "/test"
+    ]
   },
   "repository": {
     "type": "git",
@@ -15,7 +30,7 @@
     "silent",
     "capture"
   ],
-  "author": "yibn2008",
+  "author": "zoujie <yibn2008@gmail.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/yibn2008/keep-silent/issues"
@@ -24,5 +39,8 @@
   "devDependencies": {
     "mocha": "^2.4.5",
     "standard": "^5.4.1"
+  },
+  "dependencies": {
+    "intercept-stdout": "^0.1.2"
   }
 }

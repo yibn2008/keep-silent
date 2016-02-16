@@ -2,7 +2,7 @@
 * @Author: zoujie.wzj
 * @Date:   2016-02-04 19:32:03
 * @Last Modified by:   zoujie.wzj
-* @Last Modified time: 2016-02-04 20:02:47
+* @Last Modified time: 2016-02-16 13:34:54
 */
 
 'use strict'
@@ -26,9 +26,9 @@ class Log {
 
   contains (part) {
     if (part instanceof RegExp) {
-      return this.log.match(part)
+      return !!this._value.match(part)
     } else {
-      return this.log.indexOf(part)
+      return this._value.indexOf(part) >= 0
     }
   }
 
@@ -47,7 +47,7 @@ class Log {
   }
 }
 
-function silent(callback) {
+function silent (callback) {
   let cache = []
   let log = new Log(cache)
 
@@ -56,7 +56,7 @@ function silent(callback) {
     return ''
   })
 
-  let result, error, isAsync = false
+  let result, error
 
   try {
     result = callback(log)
