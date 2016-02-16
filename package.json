@@ -41,6 +41,7 @@
     "standard": "^5.4.1"
   },
   "dependencies": {
+    "co": "^4.6.0",
     "intercept-stdout": "^0.1.2"
   }
 }
