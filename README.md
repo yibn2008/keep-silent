@@ -1,4 +1,4 @@
-# keep-silent
+# keep-silent [![Build Status](https://travis-ci.org/yibn2008/keep-silent.svg?branch=master)](https://travis-ci.org/yibn2008/keep-silent) [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 
 Keep console silent.
 
