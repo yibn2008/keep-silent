@@ -1,6 +1,6 @@
 {
   "name": "keep-silent",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "keep console silent",
   "main": "index.js",
   "scripts": {
