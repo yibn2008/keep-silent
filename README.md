@@ -80,11 +80,11 @@ Keep some function slient:
 const silent = require('keep-silent')
 
 // keep silent (sync case)
-silent(function () {
+let captured = silent(function () {
   outputSync('bla bla bla ....')
 })
 
-// keep silent (async)
+// keep silent (promise)
 silent(function () {
   return outputPromise('do some async work ...')
 }).then(function (captured) {
