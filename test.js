@@ -2,7 +2,7 @@
 * @Author: zoujie.wzj
 * @Date:   2016-02-16 13:21:47
 * @Last Modified by:   zoujie.wzj
-* @Last Modified time: 2016-02-16 13:35:04
+* @Last Modified time: 2016-02-16 14:35:25
 */
 
 'use strict'
@@ -19,14 +19,19 @@ function outputAsync () {
     setTimeout(_ => {
       console.log('world')
       resolve()
-    }, 100)
+    }, 10)
   })
 }
 
 describe('Keep silent unit test', function () {
   it('should capture sync console', function () {
+    // capture will replace stdout.write
+    let oldWrite = process.stdout.write
+
     let output = silent(function () {
       outputSync()
+
+      assert.notEqual(process.stdout.write, oldWrite)
     })
 
     assert.equal(output, 'hello\n')
@@ -59,5 +64,16 @@ describe('Keep silent unit test', function () {
     })
 
     assert.equal(output, 'aaa\nbiu biu ...\n')
+  })
+
+  it('should able to capture log when execute exception', function () {
+    let oldWrite = process.stdout.write
+
+    return silent(function * () {
+      console.log('lalala')
+      throw new Error('test')
+    }).catch(function () {
+      assert(process.stdout.write, oldWrite)
+    })
   })
 })

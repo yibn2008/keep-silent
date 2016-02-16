@@ -2,7 +2,7 @@
 * @Author: zoujie.wzj
 * @Date:   2016-02-04 19:32:03
 * @Last Modified by:   zoujie.wzj
-* @Last Modified time: 2016-02-16 13:34:54
+* @Last Modified time: 2016-02-16 14:18:31
 */
 
 'use strict'
@@ -71,10 +71,12 @@ function silent (callback) {
         throw error
       }
 
-      yield result
-
-      uncapture()
-      log.clear() // trigger cache.push
+      try {
+        yield result
+      } finally {
+        uncapture()
+        log.clear() // trigger cache.push
+      }
 
       return cache.join('')
     })
