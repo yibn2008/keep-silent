@@ -27,10 +27,12 @@ The silent function will capture console logs of it's callback, you can access c
 ## Synopsis
 
 ```
-Promise<String>|String silent(callback)
+Promise<String>|String silent(callback, options)
 ```
 
-**Arguments**
+### Arguments
+
+#### `callback`
 
 The `callback` can be a normal function or a generator function, you can return a `Promise` when your callback is async. Callback contains one parameter `log`, which has methods (see next section) for processing logs.
 
@@ -46,7 +48,11 @@ slient(function * (log) {
 })
 ```
 
-**Return**
+#### `options`
+
+- `errorOutput`: print output when error occurs (default: true)
+
+### Return
 
 If callback is *sync*, the return value will be full captured logs `String`. If callback is *async* (return Promise or Generator function), the return value will be a Promise with full captured logs `String`.
 

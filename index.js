@@ -2,13 +2,17 @@
 * @Author: zoujie.wzj
 * @Date:   2016-02-04 19:32:03
 * @Last Modified by:   zoujie.wzj
-* @Last Modified time: 2016-02-16 14:18:31
+* @Last Modified time: 2016-09-27 18:00:55
 */
 
 'use strict'
 
 const capture = require('intercept-stdout')
 const co = require('co')
+
+const DEFAULT_OPTIONS = {
+  errorOutput: true
+}
 
 class Log {
   constructor (cache) {
@@ -47,7 +51,19 @@ class Log {
   }
 }
 
-function silent (callback) {
+/**
+ * keep console silent
+ *
+ * @param  {Function} callback
+ * @param  {Object}   opts
+ *  - errorOutput: show output when error occurs
+ * @return {Mixed}
+ *  - {Promise} if callback is generator/promise function
+ *  - {String} if callback is normal function
+ */
+function silent (callback, opts) {
+  opts = Object.assign({}, DEFAULT_OPTIONS, opts)
+
   let cache = []
   let log = new Log(cache)
 
@@ -66,30 +82,36 @@ function silent (callback) {
 
   if (callback.constructor.name === 'GeneratorFunction' || (result && result.then)) {
     return co(function * () {
-      if (error) {
-        uncapture()
-        throw error
+      if (!error) {
+        try {
+          yield result
+        } catch (e) {
+          error = e
+        }
       }
 
-      try {
-        yield result
-      } finally {
-        uncapture()
-        log.clear() // trigger cache.push
-      }
-
-      return cache.join('')
+      return fallback(error)
     })
   } else {
+    return fallback(error)
+  }
+
+  function fallback (error) {
     uncapture()
+    log.clear()
+
+    let output = cache.join('')
 
     if (error) {
-      throw error
-    } else {
-      log.clear() // trigger cache.push
+      if (opts.errorOutput) {
+        // print log when error
+        console.log('Output:\n-------------------\n%s\n-------------------', output)
+      }
 
-      return cache.join('')
+      throw error
     }
+
+    return output
   }
 }
 

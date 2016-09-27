@@ -2,13 +2,13 @@
 * @Author: zoujie.wzj
 * @Date:   2016-02-16 13:21:47
 * @Last Modified by:   zoujie.wzj
-* @Last Modified time: 2016-02-16 14:35:25
+* @Last Modified time: 2016-09-27 18:03:03
 */
 
 'use strict'
 
 const assert = require('assert')
-const silent = require('.')
+const silent = require('..')
 
 function outputSync () {
   console.log('hello')
@@ -67,13 +67,24 @@ describe('Keep silent unit test', function () {
   })
 
   it('should able to capture log when execute exception', function () {
-    let oldWrite = process.stdout.write
 
-    return silent(function * () {
-      console.log('lalala')
-      throw new Error('test')
-    }).catch(function () {
+
+    return silent(function * (log) {
+      let oldWrite = process.stdout.write
+      let error
+
+      try {
+        yield silent(function * () {
+          console.log('lalala')
+          throw new Error('test')
+        })
+      } catch (e) {
+        error = e
+      }
+
       assert(process.stdout.write, oldWrite)
-    })
+      assert(log.contains('lalala'))
+      assert(error instanceof Error)
+    }, { errorOutput: false })
   })
 })
