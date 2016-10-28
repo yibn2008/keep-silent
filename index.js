@@ -89,7 +89,7 @@ function silent (callback, opts) {
           error = e
         }
       }
-
+    }).then(() => {
       return fallback(error)
     })
   } else {
