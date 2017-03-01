@@ -2,6 +2,7 @@
 1.2.0 / 2017-03-02
 ==================
 
+  * test: add unit test for strip option
   * feat: add strip option support
 
 1.1.1 / 2016-10-28
