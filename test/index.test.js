@@ -8,6 +8,8 @@
 'use strict'
 
 const assert = require('assert')
+const chalk = require('chalk')
+const stripAnsi = require('strip-ansi')
 const silent = require('..')
 
 function outputSync () {
@@ -58,17 +60,20 @@ describe('Keep silent unit test', function () {
       assert(!log.contains('aaa'))
       assert(log.contains('biu'))
 
+      // log.contains with strip ansi
+      console.log('a' + chalk.red('b') + 'c')
+      assert(!log.contains('abc'))
+      assert(log.contains('abc', true))
+
       // log.clear
       log.clear()
       assert(!log.value)
     })
 
-    assert.equal(output, 'aaa\nbiu biu ...\n')
+    assert.equal(stripAnsi(output), 'aaa\nbiu biu ...\nabc\n')
   })
 
   it('should able to capture log when execute exception', function () {
-
-
     return silent(function * (log) {
       let oldWrite = process.stdout.write
       let error
