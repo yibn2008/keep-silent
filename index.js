@@ -8,6 +8,7 @@
 'use strict'
 
 const capture = require('intercept-stdout')
+const stripAnsi = require('strip-ansi')
 const co = require('co')
 
 const DEFAULT_OPTIONS = {
@@ -28,11 +29,12 @@ class Log {
     return this._value
   }
 
-  contains (part) {
+  contains (part, strip) {
+    let val = strip ? stripAnsi(this._value) : this._value
     if (part instanceof RegExp) {
-      return !!this._value.match(part)
+      return !!val.match(part)
     } else {
-      return this._value.indexOf(part) >= 0
+      return val.indexOf(part) >= 0
     }
   }
 

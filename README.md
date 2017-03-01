@@ -66,7 +66,10 @@ The methods and props of callback parameter `log`:
 
 Clear captured logs, the *log.value* will be a empty `String`.
 
-**log.contains(part)**
+**log.contains(part[, strip])**
+
+- `part`, the part of log to check
+- `strip`, strip cli ansi color chars (default: false)
 
 Whether logs contain specified string, the *part* can be a `String` or `RegExp` object.
 
